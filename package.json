@@ -11,8 +11,15 @@
   "author": "Jose Luis Garcia M",
   "license": "ISC",
   "dependencies": {
+    "connect-mongo": "^4.4.1",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-handlebars": "^5.2.1"
+    "express-handlebars": "^5.2.1",
+    "express-session": "^1.17.1",
+    "mongoose": "^5.12.2",
+    "shortid": "^2.2.16",
+    "slug": "^4.0.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
