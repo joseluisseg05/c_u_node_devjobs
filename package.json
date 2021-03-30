@@ -11,7 +11,7 @@
   "author": "Jose Luis Garcia M",
   "license": "ISC",
   "dependencies": {
-    "connect-mongo": "^4.4.1",
+    "connect-mongo": "^2.0.3",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",

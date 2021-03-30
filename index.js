@@ -5,7 +5,7 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const MongoStore = require('connect-mongo');
+const MongoStore = require('connect-mongo')(session);
 
 const path = require('path');
 
@@ -31,10 +31,7 @@ app.use(session({
     key: process.env.KEY,
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({
-        mongoUrl: process.env.DATABASE,
-        touchAfter: 24 * 3600
-    })
+    store: new MongoStore({mongooseConnection: mongoose.connection})
 }))
 
 app.use('/', router());
