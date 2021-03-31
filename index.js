@@ -2,7 +2,9 @@ const mongoose = require('mongoose');
 require('./config/db');
 
 const express = require('express');
+const handlebars = require('handlebars');
 const exphbs = require('express-handlebars');
+const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
@@ -19,6 +21,7 @@ app.use(express.urlencoded({extends: true}));
 
 app.engine('handlebars', 
     exphbs({
+        handlebars: allowInsecurePrototypeAccess(handlebars),
         defaultLayout: 'layout',
         helpers: require('./helpers/handlebars')
     })

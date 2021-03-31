@@ -13,6 +13,7 @@
   "author": "Jose Luis Garcia M",
   "license": "ISC",
   "dependencies": {
+    "@handlebars/allow-prototype-access": "^1.0.3",
     "concurrently": "^6.0.0",
     "connect-mongo": "^2.0.3",
     "cookie-parser": "^1.4.5",
@@ -20,6 +21,7 @@
     "express": "^4.17.1",
     "express-handlebars": "^5.2.1",
     "express-session": "^1.17.1",
+    "handlebars": "^4.7.7",
     "mongoose": "^5.12.2",
     "shortid": "^2.2.16",
     "slug": "^4.0.3"
