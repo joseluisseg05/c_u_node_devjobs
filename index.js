@@ -15,6 +15,8 @@ const router = require('./routes/index');
 
 const app = express();
 
+app.use(express.urlencoded({extends: true}));
+
 app.engine('handlebars', 
     exphbs({
         defaultLayout: 'layout',

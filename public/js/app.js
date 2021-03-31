@@ -18,6 +18,6 @@ const agregarSkills = e => {
             e.target.classList.add('activo');
         }
     } 
-
-    console.log(skills)
+    const skillsArray = [...skills];
+    document.querySelector('#skills').value = skillsArray;
 }

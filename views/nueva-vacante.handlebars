@@ -1,5 +1,5 @@
 <mian class="contenedor">
-    <form action="/vacantes/nueva" method="dialog" class="default-form">
+    <form action="/vacantes/nueva" method="POST" class="default-form">
         <div class="campo">
             <label>Titulo</label>
             <input type="text" name="titulo" placeholder="Ej: Node Developer" required>
@@ -10,11 +10,11 @@
         </div>
         <div class="campo">
             <label>Ubicación</label>
-            <input type="text" name="titulo" placeholder="Ej: CDMX" required>
+            <input type="text" name="ubicacion" placeholder="Ej: CDMX" required>
         </div>
         <div class="campo">
             <label>Salario (USD)</label>
-            <input type="text" name="titulo" placeholder="Ej: $300" required>
+            <input type="text" name="salario" placeholder="Ej: $300" required>
         </div>
         <div class="campo">
             <label>Contrato</label>
