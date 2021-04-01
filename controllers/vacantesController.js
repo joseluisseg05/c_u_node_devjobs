@@ -28,3 +28,29 @@ exports.mostrarDetalle = async(req, res, next) => {
         barra: true
     })
 }
+
+exports.formularioEditar = async(req, res, next) => {
+    const vacante = await Vacante.findOne({url: req.params.url});
+
+    if(!vacante) return next()
+
+    res.render('editar-vacante', {
+        nombrePag: `Editar - ${vacante.titulo}`,
+        vacante
+    })
+}
+
+exports.editarInfo = async (req, res) => {
+    const vacanteAct = req.body;
+    vacanteAct.skills = req.body.skills.split(',');
+
+    const vacante = await Vacante.findOneAndUpdate( 
+        { url: req.params.url }, 
+        vacanteAct,{
+            new: true,
+            runValidators: true
+        }
+    );
+
+    res.redirect(`/vacantes/${vacante.url}`)
+}

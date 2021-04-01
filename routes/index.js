@@ -13,6 +13,9 @@ module.exports = () => {
 
     //mostrar una vacante 
     router.get('/vacantes/:url', vacanteC.mostrarDetalle);
+    //editar vacante
+    router.get('/vacantes/editar/:url', vacanteC.formularioEditar);
+    router.post('/vacantes/editar/:url', vacanteC.editarInfo);
 
     return router;
 }
