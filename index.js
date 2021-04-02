@@ -8,6 +8,7 @@ const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-acce
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
+const flash = require('connect-flash');
 
 const path = require('path');
 
@@ -39,6 +40,13 @@ app.use(session({
     saveUninitialized: false,
     store: new MongoStore({mongooseConnection: mongoose.connection})
 }))
+
+app.use(flash());
+
+app.use((req, res, next) => {
+    res.locals.mensajes = req.flash();
+    next();
+})
 
 app.use('/', router());
 
