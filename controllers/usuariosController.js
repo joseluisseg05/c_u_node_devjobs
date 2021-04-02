@@ -44,3 +44,9 @@ exports.validarRegistro= async(req, res, next) => {
 
     return;
 }
+
+exports.formIniciarSesion = (req, res) =>{
+    res.render('iniciar-sesion', {
+        nombrePag: 'Iniciar Sesión devJobs'
+    })
+}
