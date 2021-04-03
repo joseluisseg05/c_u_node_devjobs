@@ -9,11 +9,13 @@ exports.formularioNueva = (req, res) =>{
 }
 
 exports.agregar = async (req, res) => {
-    const vacante = new Vacante(req.body);// se mapea 
+    const vacante = new Vacante(req.body);// se mapea
+
+    vacante.autor = req.user._id;//como ya esta autenticado toma el id
     vacante.skills = req.body.skills.split(',');
 
     const nuevaVacante = await vacante.save();
-    console.log(nuevaVacante)
+    
     res.redirect(`/vacantes/${nuevaVacante.url}`);
 }
 

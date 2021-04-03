@@ -10,14 +10,14 @@ module.exports = () => {
     router.get('/', homeC.mostrarTrabajos);
 
     //vacantes
-    router.get('/vacantes/nueva', vacanteC.formularioNueva);
-    router.post('/vacantes/nueva', vacanteC.agregar);
+    router.get('/vacantes/nueva', authC.verificarAuth, vacanteC.formularioNueva);
+    router.post('/vacantes/nueva', authC.verificarAuth, vacanteC.agregar);
 
     //mostrar una vacante 
     router.get('/vacantes/:url', vacanteC.mostrarDetalle);
     //editar vacante
-    router.get('/vacantes/editar/:url', vacanteC.formularioEditar);
-    router.post('/vacantes/editar/:url', vacanteC.editarInfo);
+    router.get('/vacantes/editar/:url', authC.verificarAuth, vacanteC.formularioEditar);
+    router.post('/vacantes/editar/:url', authC.verificarAuth, vacanteC.editarInfo);
 
 
     //crear cuentas 
@@ -26,7 +26,10 @@ module.exports = () => {
 
     //autenticar
     router.get('/iniciar-sesion', usuariosC.formIniciarSesion);
-    router.post('/iniciar-sesion', authC.autenticarUsuario)
+    router.post('/iniciar-sesion', authC.autenticarUsuario);
+    
+    //administracion
+    router.get('/administracion', authC.verificarAuth, authC.mostrarPanel);
 
     return router;
 }
