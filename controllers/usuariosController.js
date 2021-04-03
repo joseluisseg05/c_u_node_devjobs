@@ -75,3 +75,28 @@ exports.editarPerfil = async(req, res) => {
 
     res.redirect('/administracion');
 }
+
+exports.validarPerfil = async(req, res, next) => {
+    const reglas = [
+        body('nombre').notEmpty().withMessage('El nombre es Obligatorio').escape(),
+        body('email').isEmail().withMessage('El email debe ser valido').escape()
+    ];
+    
+    if(req.body.password) 
+        reglas.push(body('password').notEmpty().withMessage('El password no puede ir vacío').escape());
+    
+    await Promise.all(reglas.map( validation => validation.run(req)));
+    const errores = validationResult(req);
+
+    if(errores.isEmpty()) return next(); // si no hay errores
+
+    req.flash('error', errores.array().map(error => error.msg));
+    res.render('editar-perfil', {
+        nombrePag: 'Edita tu perfil en devJobs',
+        usuario: req.user,
+        cerrarSesion: true,
+        nombre: req.user.nombre,
+        mensajes: req.flash(),
+    })
+
+}

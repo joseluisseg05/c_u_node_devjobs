@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Vacante = mongoose.model('Vacante');
+const { body, validationResult } = require('express-validator');
 
 exports.formularioNueva = (req, res) =>{
     res.render('nueva-vacante', {
@@ -59,4 +60,29 @@ exports.editarInfo = async (req, res) => {
     );
 
     res.redirect(`/vacantes/${vacante.url}`)
+}
+
+exports.validar = async(req, res, next) => {
+    const reglas = [
+        body('titulo').notEmpty().withMessage('El titulo es necesario.').escape(),
+        body('empresa').notEmpty().withMessage('La empresa es un dato necesario.').escape(),
+        body('ubicacion').notEmpty().withMessage('La ubicación es un dato necesario.').escape(),
+        body('salario').escape(),
+        body('contrato').notEmpty().withMessage('El contrato es un dato necesario.').escape(),
+        body('skills').notEmpty().withMessage('Debe de tener almenos una skill.').escape(),
+    ];
+
+    await Promise.all(reglas.map(validation => validation.run(req)));
+    const errores = validationResult(req);
+
+    if(errores.isEmpty()) return next()
+
+    req.flash('error', errores.array().map(error => error.msg));
+    res.render('nueva-vacante', {
+        nombrePag: 'Nueva Vacante',
+        tagline: 'Llena el formulario y pubica tu vacante',
+        cerrarSesion: true,
+        nombre: req.user.nombre,
+        mensajes: req.flash()
+    })
 }

@@ -11,13 +11,13 @@ module.exports = () => {
 
     //vacantes
     router.get('/vacantes/nueva', authC.verificarAuth, vacanteC.formularioNueva);
-    router.post('/vacantes/nueva', authC.verificarAuth, vacanteC.agregar);
+    router.post('/vacantes/nueva', authC.verificarAuth, vacanteC.validar, vacanteC.agregar);
 
     //mostrar una vacante 
     router.get('/vacantes/:url', vacanteC.mostrarDetalle);
     //editar vacante
     router.get('/vacantes/editar/:url', authC.verificarAuth, vacanteC.formularioEditar);
-    router.post('/vacantes/editar/:url', authC.verificarAuth, vacanteC.editarInfo);
+    router.post('/vacantes/editar/:url', authC.verificarAuth, vacanteC.validar, vacanteC.editarInfo);
 
 
     //crear cuentas 
@@ -36,7 +36,7 @@ module.exports = () => {
 
     //editar perfil
     router.get('/editar-perfil', authC.verificarAuth, usuariosC.formEditarPerfil);
-    router.post('/editar-perfil', authC.verificarAuth, usuariosC.editarPerfil);
+    router.post('/editar-perfil', authC.verificarAuth, usuariosC.validarPerfil, usuariosC.editarPerfil);
 
     return router;
 }
