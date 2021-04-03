@@ -31,5 +31,9 @@ module.exports = () => {
     //administracion
     router.get('/administracion', authC.verificarAuth, authC.mostrarPanel);
 
+    //editar perfil
+    router.get('/editar-perfil', authC.verificarAuth, usuariosC.formEditarPerfil);
+    router.post('/editar-perfil', authC.verificarAuth, usuariosC.editarPerfil);
+
     return router;
 }
