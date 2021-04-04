@@ -77,6 +77,10 @@ exports.editarPerfil = async(req, res) => {
 }
 
 exports.validarPerfil = async(req, res, next) => {
+    //#region 
+    //forma de realizar la validacion en un controlador 
+    //y evaluar las entradas del body en un arreglo 
+    //para mandarlo por flash
     const reglas = [
         body('nombre').notEmpty().withMessage('El nombre es Obligatorio').escape(),
         body('email').isEmail().withMessage('El email debe ser valido').escape()
@@ -91,6 +95,7 @@ exports.validarPerfil = async(req, res, next) => {
     if(errores.isEmpty()) return next(); // si no hay errores
 
     req.flash('error', errores.array().map(error => error.msg));
+    //#endregion
     res.render('editar-perfil', {
         nombrePag: 'Edita tu perfil en devJobs',
         usuario: req.user,

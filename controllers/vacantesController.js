@@ -86,3 +86,22 @@ exports.validar = async(req, res, next) => {
         mensajes: req.flash()
     })
 }
+
+exports.eliminar = async (req, res) => {
+    const { id } = req.params;
+    const vacante = await Vacante.findById(id);
+
+    if(verificarAutor(vacante, req.user)) {
+        //enviar mensaje a sweetalert 
+        vacante.remove();
+        res.status(200).send('Vacante Eliminada Correctamente')
+    } else 
+        res.status(403).send('Error')
+        
+}
+
+const verificarAutor = (vacante= {}, usuario = {}) => {
+    if(!vacante.autor.equals(usuario._id)) return false
+    
+    return true;
+}
