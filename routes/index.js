@@ -45,5 +45,9 @@ module.exports = () => {
         usuariosC.editarPerfil
     );
 
+    //candidatos
+    router.post('/vacantes/:url', vacanteC.subirCV, vacanteC.contactar);
+    router.get('/candidatos/:id', authC.verificarAuth, vacanteC.mostrarCandidatos);
+
     return router;
 }

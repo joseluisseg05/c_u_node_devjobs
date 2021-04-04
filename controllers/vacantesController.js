@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Vacante = mongoose.model('Vacante');
 const { body, validationResult } = require('express-validator');
+const multer = require('multer');
+const shortId = require('shortid');
 
 exports.formularioNueva = (req, res) =>{
     res.render('nueva-vacante', {
@@ -106,4 +108,83 @@ const verificarAutor = (vacante= {}, usuario = {}) => {
     if(!vacante.autor.equals(usuario._id)) return false
     
     return true;
+}
+
+exports.subirCV = (req, res, next) => {
+    upload(req, res, function(error){
+        if (error ){
+            if(error instanceof multer.MulterError) {
+                if (error.code === 'LIMIT_FILE_SIZE') {
+                    req.flash('error', 'La imagen que trata de subir es muy grande: Maximo 200Kb ');
+                } else {
+                    req.flash('error', req.message);
+                }
+            }
+            else {
+                req.flash('error', error.message);
+            }
+            console.log(error);
+            res.redirect('back');
+            return;
+        } else 
+            next();
+    });
+}
+const configMulter = {
+    limits: {
+        fileSize: 200000
+    },
+    storage: fileStorage = multer.diskStorage({
+        destination: (req, file, cb) =>{
+            cb(null, __dirname + '../../public/uploads/cv');
+        },
+        filename: (res, file, cb) => {
+            const extencion = file.mimetype.split('/')[1];
+            cb(null, `${shortId.generate()}.${extencion}`);
+            
+        }
+    }),
+    fileFilter(req, file, cb ) {
+        if(file.mimetype === 'application/pdf') {
+            cb(null, true)
+        } else {
+            cb(new Error('Formato de CV no valido'))
+        }
+    }
+}
+
+const upload = multer(configMulter).single('cv');//cv viene del nombre del campo de la vista
+
+exports.contactar = async(req, res, next) => {
+    const vacante = await Vacante.findOne({url: req.params.url});
+
+    if(!vacante) return next();
+
+    const nuevoCandidato = {
+        nombre: req.body.nombre,
+        email: req.body.email,
+        //telefono: req.body.telefono,
+        cv: req.file.filename
+    }
+
+    vacante.candidatos.push(nuevoCandidato);
+    await vacante.save();
+
+    req.flash('correcto', 'Se ha enviado tu CV al reclutador');
+    res.redirect('/');
+}
+
+exports.mostrarCandidatos = async(req, res, next) => {
+    const vacante = await Vacante.findById(req.params.id);
+
+    if(!vacante) return next();
+    if (vacante.autor != req.user._id.toString()) return next();
+
+    res.render('candidatos', {
+        nombrePag: `Candidatos Para ${vacante.titulo}`,
+        cerrarSesion: true,
+        nombre: req.user.nombre,
+        imagen: req.user.imagen,
+        candidatos: vacante.candidatos
+    })
 }
