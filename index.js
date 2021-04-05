@@ -29,7 +29,7 @@ app.engine('handlebars',
         helpers: require('./helpers/handlebars')
     })
 );
-app.set('view engine', 'handlebars');
+app.set('view engine', 'handlebars'); // si se pone el nombre completo asi debe de ir la extension
 
 app.use(express.static(path.join(__dirname, 'public')));
 

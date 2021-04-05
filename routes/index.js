@@ -33,6 +33,14 @@ module.exports = () => {
     //cerrar
     router.get('/cerrar-sesion', authC.verificarAuth, authC.cerrarSesion);
     
+    //resetear pass
+    router.get('/reestablecer-pass', authC.formRestablecer);
+    router.post('/reestablecer-pass', authC.enviarToken);
+
+    //guardar nuevo pass
+    router.get('/reestablecer-pass/:token', authC.reestablecerPassword);
+    router.post('/reestablecer-pass/:token', authC.guardarNuevoPass);
+
     //administracion
     router.get('/administracion', authC.verificarAuth, authC.mostrarPanel);
 
