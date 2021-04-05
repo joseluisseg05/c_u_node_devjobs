@@ -188,3 +188,17 @@ exports.mostrarCandidatos = async(req, res, next) => {
         candidatos: vacante.candidatos
     })
 }
+
+exports.buscar = async(req, res) =>{
+    const vacantes = await Vacante.find({
+        $text: { //agregadores en mongodb
+            $search: req.body.q
+        }
+    });
+
+    res.render('home', {
+        nombrePag: `Resultados para la búsqueda: ${req.body.q}`,
+        barra: true,
+        vacantes
+    })
+}

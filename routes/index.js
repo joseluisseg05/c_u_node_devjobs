@@ -57,5 +57,8 @@ module.exports = () => {
     router.post('/vacantes/:url', vacanteC.subirCV, vacanteC.contactar);
     router.get('/candidatos/:id', authC.verificarAuth, vacanteC.mostrarCandidatos);
 
+    //buscador
+    router.post('/buscador', vacanteC.buscar);
+
     return router;
 }
